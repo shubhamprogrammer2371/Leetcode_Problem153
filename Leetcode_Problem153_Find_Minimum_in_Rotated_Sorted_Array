@@ -1,0 +1,40 @@
+int findMin(int* nums, int numsSize) {
+    int min = INT_MAX;
+    for( int i = 0 ; i < numsSize ; i++)
+        min = fmin(min,nums[i]);
+    return min;
+}
+
+
+----------------------------------------------------------------------------
+
+
+int fncmp(const void* a, const void* b)
+{
+    return *(int*)a - *(int*)b;
+}
+int findMin(int* nums, int numsSize) {
+    qsort(nums,numsSize,sizeof(int),fncmp);
+    return nums[0];
+}
+
+
+-----------------------------------------------------------------------------
+
+
+int findMin(int* nums, int numsSize){
+    int end = numsSize - 1, start = 0, mid;
+    if (!end) // only one element
+        return nums[0]; 
+    while (start < end)
+    {
+        mid = (end + start) / 2;
+        if (nums[start] < nums[end]) // got a part that is not rotated
+            return nums[start]; 
+        else if (nums[mid] > nums[end]) // mid is larger than right - min is in right side 
+            start = mid + 1;
+        else // mid is smaller than right - min is in left side (including mid)
+            end = mid;
+    }
+    return nums[start];
+}
